@@ -210,16 +210,25 @@ python manage.py test
 
 ## 📸 Screenshots
 
-> _Substitua os placeholders abaixo pelos prints reais ao publicar o repositório._
+### Landing page
 
-| Tela                | Preview                                                                 |
-|---------------------|-------------------------------------------------------------------------|
-| Landing page        | ![Landing](https://placehold.co/800x420/0a0a0a/a742f5?text=Landing+Page) |
-| Dashboard           | ![Dashboard](https://placehold.co/800x420/0a0a0a/FF6B6B?text=Dashboard) |
-| Login               | ![Login](https://placehold.co/800x420/0a0a0a/a742f5?text=Login)         |
-| Diretório público   | ![Directory](https://placehold.co/800x420/0a0a0a/2dce89?text=Directory) |
-| Mapa interativo     | ![Map](https://placehold.co/800x420/0a0a0a/4361ee?text=Mapa)            |
-| Estatísticas        | ![Stats](https://placehold.co/800x420/0a0a0a/fb6340?text=Charts)        |
+![Landing page da Orbia](assets/landing.png)
+
+### Mapa interativo
+
+![Mapa interativo de empresas](assets/mapa.png)
+
+### Diretório público
+
+![Diretório público de empresas](assets/diretorio.png)
+
+### Login
+
+![Tela de login da Orbia](assets/login.png)
+
+### Cadastro
+
+![Tela de cadastro da Orbia](assets/cadastro.png)
 
 ---
 
