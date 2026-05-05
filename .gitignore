@@ -1,0 +1,45 @@
+# ─── Python ───────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.Python
+
+# ─── Virtual environments ─────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ─── Django ───────────────────────────────────────────────────────────────
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+*.sqlite
+
+# Collected static / user uploads
+/staticfiles/
+/media/
+
+# ─── Secrets ──────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Editor / OS ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.cache
+.DS_Store
+Thumbs.db
+
+# ─── Coverage / testing ───────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
+
+CLAUDE.md

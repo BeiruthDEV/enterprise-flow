@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+{% block title %}Login | Orbia{% endblock %}
+
+{% block content %}
+<style>
+    
+    .navbar a[href*="login"] {
+        display: none !important;
+    }
+
+   
+    .login-container {
+        min-height: 85vh; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .login-card {
+        background: rgba(30, 30, 30, 0.8); 
+        backdrop-filter: blur(20px);        
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: row; 
+    }
+
+    .login-sidebar {
+        background: linear-gradient(135deg, #090a0c 0%, #d8b46a 100%);
+        width: 45%;
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        position: relative;
+    }
+
+    .login-sidebar::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .login-form-side {
+        width: 55%;
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-floating > .form-control {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff !important;
+        border-radius: 0.75rem;
+        height: 3.5rem;
+    }
+
+    .form-floating > .form-control:focus {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        border-color: #d8b46a;
+        box-shadow: 0 0 0 4px rgba(216, 180, 106, 0.15);
+    }
+    
+    .form-floating > label {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        color: #d8b46a; /* Cor do label quando ativo */
+        background-color: transparent !important;
+    }
+
+    .btn-login {
+        background: linear-gradient(90deg, #d8b46a, #ff6b6b);
+        border: none;
+        padding: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        font-size: 1rem;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(216, 180, 106, 0.4);
+        filter: brightness(1.1);
+        color: white;
+    }
+
+    @media (max-width: 991px) {
+        .login-card {
+            flex-direction: column;
+            max-width: 500px;
+        }
+        .login-sidebar {
+            width: 100%;
+            padding: 2rem;
+            min-height: 200px;
+        }
+        .login-form-side {
+            width: 100%;
+            padding: 2rem;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card fade-in-up">
+        
+        <div class="login-sidebar">
+            <div class="position-relative z-1">
+                <div class="mb-4">
+                    <div class="bg-white bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 100px; height: 100px; backdrop-filter: blur(5px); box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+                       <img src="{% static 'img/orbia-icon.png' %}" alt="Logo" style="width: 90%; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
+                    </div>
+                </div>
+                <h2 class="fw-bold mb-2">Orbia</h2>
+                <p class="text-white-50 mb-4 font-monospace small text-uppercase ls-1">Plataforma Corporativa</p>
+                <p class="small opacity-75 mx-auto" style="max-width: 300px; line-height: 1.6;">
+                    Gerencie empresas, projetos, pesquisas e relatórios em um único painel integrado.
+                </p>
+            </div>
+            
+            <div class="position-absolute bottom-0 start-0 p-5 opacity-25">
+                <i class="fas fa-code fa-4x text-white" style="transform: rotate(-15deg);"></i>
+            </div>
+        </div>
+
+        <div class="login-form-side">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold text-white mb-2">Bem-vindo de volta!</h3>
+                <p class="text-muted small">Insira suas credenciais para acessar o painel.</p>
+            </div>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger d-flex align-items-center mb-4 rounded-3 p-3">
+                <i class="fas fa-exclamation-circle me-3 fs-4"></i>
+                <div class="small fw-bold">
+                    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <form class="user" method="post">
+                {% csrf_token %}
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control"
+                        id="floatingInput" placeholder="Usuário" required autofocus>
+                    <label for="floatingInput"><i class="fas fa-user me-2"></i>Usuário</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" name="password" class="form-control"
+                        id="floatingPassword" placeholder="Senha" required>
+                    <label for="floatingPassword"><i class="fas fa-lock me-2"></i>Senha</label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input bg-dark border-secondary" type="checkbox" id="rememberCheck">
+                        <label class="form-check-label small text-muted cursor-pointer" for="rememberCheck">
+                            Lembrar-me
+                        </label>
+                    </div>
+                    <a href="{% url 'password_reset' %}" class="small text-primary fw-bold text-decoration-none hover-brightness">
+                        Esqueceu a senha?
+                    </a>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100 mb-4 shadow">
+                    Entrar no Sistema <i class="fas fa-arrow-right ms-2 small"></i>
+                </button>
+
+                {% get_providers as socialaccount_providers %}
+                {% for provider in socialaccount_providers %}
+                    {% if provider.id == "google" %}
+                        <a class="btn btn-danger w-100 mb-3" href="{% provider_login_url 'google' %}">
+                        Entrar com Google
+                        </a>
+                    {% endif %}
+                    
+                    {% if provider.id == "github" %}
+                        <a class="btn btn-dark w-100" href="{% provider_login_url 'github' %}">
+                        Entrar com GitHub
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+
+                <div class="text-center border-top border-secondary border-opacity-25 pt-4">
+                    <span class="small text-muted">Não possui acesso?</span>
+                    <a class="small text-white fw-bold text-decoration-none ms-1" href="{% url 'register' %}">
+                        Cadastre-se agora
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

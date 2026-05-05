@@ -1,0 +1,131 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Orbia | Gestão corporativa em um único fluxo{% endblock %}
+
+{% block content %}
+<section class="cinema-hero" aria-labelledby="landing-title">
+  <div class="cinema-stars" aria-hidden="true"></div>
+  <div class="cinema-vignette" aria-hidden="true"></div>
+
+  <div class="cinema-hero-copy">
+    <p class="eyebrow">Orbia</p>
+    <h1 id="landing-title">Gestão empresarial em um único fluxo</h1>
+    <p>
+      Conecte empresas, projetos, pesquisas e relatórios em uma experiência
+      segura para visualizar operações e decidir com dados.
+    </p>
+
+    <div class="cinema-actions">
+      {% if not user.is_authenticated %}
+      <a href="{% url 'register' %}" class="btn btn-light btn-hero">
+        Começar agora <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+      <a href="{% url 'public:diretorio' %}" class="btn btn-ghost">
+        Ver diretório
+      </a>
+      {% else %}
+      <a href="{% url 'home' %}" class="btn btn-light btn-hero">
+        Acessar painel <i class="fas fa-columns ms-2"></i>
+      </a>
+      <a href="{% url 'public:estatisticas' %}" class="btn btn-ghost">
+        Ver dados
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="liquid-stage" aria-hidden="true">
+    <div class="liquid-orb">
+      <div class="orbia-sphere">
+        <span class="orbia-orbit"></span>
+      </div>
+    </div>
+
+    <div class="data-float data-float-left">
+      <span>Módulos ativos</span>
+      <strong>5</strong>
+      <small>Empresas, projetos, mapa, pesquisas e relatórios</small>
+    </div>
+
+    <div class="data-float data-float-right">
+      <span>Fluxo integrado</span>
+      <strong>100%</strong>
+      <small>Operação centralizada</small>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" class="cinema-band">
+  <div class="container">
+    <div class="section-kicker">Proposta</div>
+    <div class="cinema-split">
+      <h2>Uma camada única para acompanhar o ecossistema da empresa.</h2>
+      <p>
+        O Orbia organiza cadastros, iniciativas, indicadores e
+        formulários em uma base comum. A equipe sai de planilhas soltas e passa
+        a operar com contexto, histórico e visão pública quando fizer sentido.
+      </p>
+    </div>
+
+    <div class="feature-runway">
+      <a href="{% url 'public:diretorio' %}" class="feature-line">
+        <span>01</span>
+        <strong>Diretório vivo</strong>
+        <em>Empresas filtradas por estado, cidade e status de projetos.</em>
+      </a>
+      <a href="{% url 'public:mapa' %}" class="feature-line">
+        <span>02</span>
+        <strong>Mapa operacional</strong>
+        <em>Geolocalização para enxergar onde a rede está concentrada.</em>
+      </a>
+      <a href="{% url 'public:estatisticas' %}" class="feature-line">
+        <span>03</span>
+        <strong>Indicadores claros</strong>
+        <em>Gráficos e métricas para acompanhar evolução e distribuição.</em>
+      </a>
+      <a href="{% url 'surveys:report_public' %}" class="feature-line">
+        <span>04</span>
+        <strong>Relatórios prontos</strong>
+        <em>Resultados exportáveis para prestação de contas e análise.</em>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cinema-depth">
+  <div class="depth-panel">
+    <div>
+      <p class="eyebrow">Operação</p>
+      <h2>Da captura ao acompanhamento sem trocar de ferramenta.</h2>
+    </div>
+    <div class="depth-grid">
+      <div>
+        <span>Cadastro</span>
+        <strong>Empresas e representantes</strong>
+      </div>
+      <div>
+        <span>Execução</span>
+        <strong>Projetos com status e histórico</strong>
+      </div>
+      <div>
+        <span>Leitura</span>
+        <strong>Dashboards, mapa e relatórios</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cinema-cta">
+  <p class="eyebrow">Comece pelo fluxo certo</p>
+  <h2>Cadastre a empresa, acompanhe projetos e transforme dados em ação.</h2>
+  <div class="cinema-actions justify-content-center">
+    {% if not user.is_authenticated %}
+    <a href="{% url 'register' %}" class="btn btn-light btn-hero">Criar conta</a>
+    <a href="{% url 'company-public-register' %}" class="btn btn-ghost">Cadastrar empresa</a>
+    {% else %}
+    <a href="{% url 'home' %}" class="btn btn-light btn-hero">Entrar no painel</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Empresas | Orbia{% endblock %}
+
+{% block content %}
+<style>
+    /* Cabeçalho Bonito */
+    .page-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d1b4e 100%);
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Efeito de fundo no cabeçalho */
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(216, 180, 106, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    /* Barra de Pesquisa Estilizada */
+    .search-input {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        backdrop-filter: blur(5px);
+    }
+
+    .search-input:focus {
+        border-color: #d8b46a !important;
+        box-shadow: 0 0 15px rgba(216, 180, 106, 0.2);
+    }
+
+    /* Estilo dos Cartões (Glassmorphism) */
+    .company-card {
+        background: rgba(30, 30, 30, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .company-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        background: rgba(40, 40, 40, 0.9);
+        border-color: rgba(216, 180, 106, 0.4);
+    }
+
+    /* Topo colorido do cartão */
+    .card-icon-header {
+        background: linear-gradient(45deg, #090a0c, #15161c);
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Ícone circular central */
+    .company-avatar {
+        width: 70px;
+        height: 70px;
+        background: #1a1a1a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: #f7dfaa;
+        margin: -35px auto 0 auto;
+        /* Sobe para ficar entre o topo e o corpo */
+        border: 4px solid #1e1e1e;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-body-custom {
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    /* Linhas de informação (CNPJ, Cidade, etc) */
+    .info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8rem;
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        text-align: left;
+    }
+
+    .info-row i {
+        width: 25px;
+        color: #4a91ff;
+        text-align: center;
+        margin-right: 0.5rem;
+    }
+
+    /* Badge da Área de Atuação */
+    .badge-area {
+        background: rgba(216, 180, 106, 0.15);
+        color: #f7dfaa;
+        border: 1px solid rgba(216, 180, 106, 0.3);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+</style>
+
+<div class="container py-4">
+
+    <div class="page-header text-center">
+        <h1 class="fw-bold text-white mb-2">Empresas</h1>
+        <p class="text-white-50 mb-4">Gerencie as empresas e parceiros cadastrados na plataforma.</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <form method="get" class="d-flex gap-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-secondary text-secondary"
+                            style="border-radius: 50px 0 0 50px; border-right: none;">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" name="q" class="form-control search-input"
+                            style="border-radius: 0 50px 50px 0; border-left: none;" placeholder="Buscar empresa..."
+                            value="{{ request.GET.q }}">
+                    </div>
+                    <a href="{% url 'company-create' %}" class="btn btn-primary fw-bold shadow"
+                        style="border-radius: 50px; padding: 0 1.5rem; display: flex; align-items: center;">
+                        <i class="fas fa-plus me-2"></i>Nova
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if company_list %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for company in company_list %}
+        <div class="col">
+            <div class="company-card">
+
+                <div class="card-icon-header"></div>
+
+                <div class="company-avatar">
+                    <i class="fas fa-building"></i>
+                </div>
+
+                <div class="card-body-custom">
+                    <h4 class="text-white fw-bold mb-2">{{ company.nome_fantasia }}</h4>
+
+                    <div class="mb-4">
+                        <span class="badge-area">
+                            {{ company.get_area_atuacao_display|default:"Geral" }}
+                        </span>
+                    </div>
+
+                    <div class="px-2">
+                        <div class="info-row">
+                            <i class="fas fa-id-card" title="CNPJ"></i>
+                            <span>{{ company.cnpj }}</span>
+                        </div>
+                        <div class="info-row">
+                            <i class="fas fa-map-marker-alt" title="Localização"></i>
+                            <span>{{ company.cidade }} / {{ company.estado }}</span>
+                        </div>
+                        <div class="info-row">
+                            <i class="fas fa-user-tie" title="Representante"></i>
+                            <span>
+                                {% if company.representantes.first %}
+                                {{ company.representantes.first.nome_completo|truncatechars:20 }}
+                                {% else %}
+                                <span class="text-muted fst-italic">Sem representante</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-top border-secondary border-opacity-10 p-3">
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="{% url 'company-update' company.pk %}" class="btn btn-sm btn-outline-info flex-grow-1">
+                            <i class="fas fa-edit me-1"></i> Editar
+                        </a>
+                        <a href="{% url 'company-delete' company.pk %}"
+                            class="btn btn-sm btn-outline-danger flex-grow-1">
+                            <i class="fas fa-trash-alt me-1"></i> Excluir
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="d-flex justify-content-center mt-5">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link bg-dark text-white border-secondary"
+                        href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}">Anterior</a>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                    <span class="page-link bg-primary border-primary">{{ page_obj.number }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link bg-dark text-white border-secondary"
+                        href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}">Próximo</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-5">
+        <div class="mb-3 text-secondary opacity-25">
+            <i class="fas fa-folder-open fa-4x"></i>
+        </div>
+        <h3 class="text-white-50">Nenhuma empresa encontrada</h3>
+        <a href="{% url 'company-create' %}" class="btn btn-outline-primary mt-3">Cadastrar Empresa</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

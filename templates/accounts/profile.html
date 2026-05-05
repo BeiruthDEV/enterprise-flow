@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Meu Perfil{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-semibold">Minha Conta</h2>
+
+        {% if has_company %}
+            <span class="badge bg-success">Vínculo empresarial ativo</span>
+        {% else %}
+            <span class="badge bg-secondary">Sem vínculo empresarial</span>
+        {% endif %}
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+
+                    {% if user.avatar %}
+                        <img id="avatarPreview" src="{{ user.avatar.url }}"
+                             class="rounded-circle mb-3"
+                             style="width:140px;height:140px;object-fit:cover;">
+                    {% else %}
+                        <div id="avatarPreview"
+                             class="rounded-circle bg-light d-flex align-items-center justify-content-center mb-3"
+                             style="width:140px;height:140px;">
+                            <i class="fas fa-user fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+
+                    <h5 class="mb-0">{{ user.get_full_name|default:user.username }}</h5>
+                    <small class="text-muted">{{ user.get_role_display }}</small>
+                    <hr>
+                    <small class="text-muted">{{ user.email }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Nome</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col">
+                                <label>Sobrenome</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Telefone</label>
+                                {{ form.telefone }}
+                            </div>
+                            <div class="col">
+                                <label>Data de nascimento</label>
+                                {{ form.data_nascimento }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Foto de perfil</label>
+                            {{ form.avatar }}
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'change_password' %}"
+                               class="btn btn-outline-secondary">
+                                Alterar senha
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Salvar alterações
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const input = document.querySelector('input[type="file"]');
+if (input) {
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById("avatarPreview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+</script>
+{% endblock %}

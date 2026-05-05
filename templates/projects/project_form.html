@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block title %}Gerenciar Projeto | Orbia{% endblock %}
+
+{% block content %}
+<style>
+    /* Card do Cabeçalho */
+    .project-header-card {
+        background: linear-gradient(135deg, #090a0c 0%, #4a91ff 100%);
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        color: white;
+        margin-bottom: -2rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    /* Container do Formulário */
+    .form-container-glass {
+        background: #1a1a1a; /* Fundo sólido escuro para contraste */
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 1rem;
+        padding: 4rem 2.5rem 2.5rem 2.5rem;
+        margin-top: 0;
+        position: relative;
+        z-index: 0;
+    }
+
+    /* Labels Destacados */
+    .form-label-highlight {
+        color: #f7dfaa; /* Roxo claro */
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    /* Inputs de Alta Visibilidade */
+    .form-control-custom {
+        background-color: #2b2b2b !important;
+        border: 1px solid #555 !important;
+        color: #fff !important;
+        border-radius: 0.5rem;
+    }
+    
+    .form-control-custom:focus {
+        border-color: #d8b46a !important;
+        box-shadow: 0 0 0 3px rgba(216, 180, 106, 0.25);
+    }
+</style>
+
+<div class="container pb-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <div class="project-header-card text-center">
+                {% if form.instance.pk %}
+                    <h2 class="fw-bold mb-1 text-white"><i class="fas fa-edit me-2"></i>Editar Projeto</h2>
+                    <p class="text-white-50 mb-0">Atualize os detalhes e o status do desenvolvimento.</p>
+                {% else %}
+                    <h2 class="fw-bold mb-1 text-white"><i class="fas fa-project-diagram me-2"></i>Novo Projeto</h2>
+                    <p class="text-white-50 mb-0">Comece a construir o portfólio da sua empresa.</p>
+                {% endif %}
+            </div>
+            
+            <div class="form-container-glass">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger mb-4">
+                            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-4">
+                        <label class="form-label-highlight">Nome do Projeto</label>
+                        <input type="text" name="name" 
+                               class="form-control form-control-custom py-3 px-3" 
+                               style="font-size: 1.2rem;"
+                               value="{{ form.instance.name|default:'' }}" 
+                               placeholder="Ex: Plataforma Interna v2" required>
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1 fw-bold">{{ form.name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-highlight">Descrição Detalhada</label>
+                        <textarea name="description" 
+                                  class="form-control form-control-custom px-3" 
+                                  rows="6" 
+                                  placeholder="Descreva o conceito, mecânicas principais, público-alvo e objetivos...">{{ form.instance.description|default:'' }}</textarea>
+                        {% if form.description.errors %}
+                            <div class="text-danger small mt-1 fw-bold">{{ form.description.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <label class="form-label-highlight mb-2">Fase Atual</label>
+                            <div class="p-0">
+                                <select name="status" class="form-select form-control-custom" style="padding: 0.8rem;">
+                                    <option value="pending" {% if form.instance.status == 'pending' %}selected{% endif %}>
+                                        🟡 Planejamento
+                                    </option>
+                                    <option value="active" {% if form.instance.status == 'active' %}selected{% endif %}>
+                                        🟢 Em Desenvolvimento
+                                    </option>
+                                    <option value="finished" {% if form.instance.status == 'finished' %}selected{% endif %}>
+                                        🔵 Finalizado
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="col-md-4">
+                            {% if form.company %}
+                                <label class="form-label-highlight mb-2">Empresa Responsável</label>
+                                <div class="p-0">
+                                    {{ form.company }} 
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary opacity-25 my-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'project_list' %}" class="btn btn-outline-light px-4">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow">
+                            <i class="fas fa-save me-2"></i>Salvar Projeto
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var selects = document.querySelectorAll('select');
+        selects.forEach(function(select) {
+            select.classList.add('form-select', 'form-control-custom');
+            select.style.padding = '0.8rem';
+        });
+    });
+</script>
+{% endblock %}

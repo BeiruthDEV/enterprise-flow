@@ -1,0 +1,47 @@
+﻿{% extends "base.html" %}
+{% block title %}Pesquisa Recebida | Orbia{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg rounded-4 text-center overflow-hidden">
+                <div class="card-body p-5">
+
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 text-success"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-check-circle fa-4x"></i>
+                        </div>
+                    </div>
+
+                    <h2 class="fw-bold mb-3 text-dark">Pesquisa Enviada!</h2>
+                    <p class="text-muted lead mb-4">
+                        Agradecemos pela sua colaboraÃ§Ã£o. Seus dados foram registados com sucesso e ajudarÃ£o a
+                        fortalecer o nosso ecossistema.
+                    </p>
+
+                    <div class="bg-light p-3 rounded-3 mb-4 text-start small border">
+                        <div class="d-flex">
+                            <i class="fas fa-info-circle text-primary mt-1 me-2"></i>
+                            <div>
+                                <strong>O que acontece agora?</strong><br>
+                                Os dados serÃ£o compilados anonimamente e o relatÃ³rio anual serÃ¡ disponibilizado na Ã¡rea
+                                de "Documentos" assim que finalizado.
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'home' %}" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">
+                        <i class="fas fa-home me-2"></i>Voltar ao Painel
+                    </a>
+
+                </div>
+                <div class="card-footer bg-success text-white py-3 border-0">
+                    <small class="fw-bold text-uppercase letter-spacing-1">Orbia â€¢ Pesquisa Anual</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

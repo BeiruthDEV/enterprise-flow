@@ -1,0 +1,383 @@
+﻿{% extends "base.html" %}
+{% block title %}Diretório de Empresas | Orbia{% endblock %}
+
+{% block content %}
+<style>
+  .directory-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .directory-title {
+    font-size: clamp(3rem, 7vw, 5.6rem);
+    font-weight: 650;
+    color: #fff;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+    margin-bottom: 0.5rem;
+  }
+
+  .filter-card {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.022)),
+      rgba(8, 9, 12, 0.74);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 22px;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: 3rem;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+  }
+
+  .directory-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) minmax(260px, 1.45fr) auto;
+    gap: 1rem;
+    align-items: end;
+  }
+
+  .filter-field {
+    min-width: 0;
+  }
+
+  .filter-label {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: rgba(247, 244, 237, 0.58);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  .form-select-dark {
+    min-height: 52px;
+    background-color: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border-radius: 14px;
+    font-weight: 600;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .form-select-dark:focus {
+    background-color: rgba(255, 255, 255, 0.075);
+    border-color: #d8b46a;
+    box-shadow: 0 0 0 3px rgba(216, 180, 106, 0.16);
+    color: #fff;
+  }
+
+  .form-select-dark option {
+    background: #090a0c;
+    color: #f7f4ed;
+  }
+
+  .form-select-dark:disabled {
+    background-color: rgba(255, 255, 255, 0.035);
+    color: rgba(247, 244, 237, 0.36);
+    cursor: not-allowed;
+  }
+
+  .status-segment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    min-height: 52px;
+    align-items: center;
+    padding: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .status-pill {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .status-pill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .status-pill span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: rgba(247, 244, 237, 0.68);
+    font-size: 0.88rem;
+    font-weight: 650;
+    transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .status-pill input:checked + span {
+    border-color: rgba(216, 180, 106, 0.46);
+    background: rgba(216, 180, 106, 0.16);
+    color: #f7dfaa;
+    box-shadow: 0 10px 30px rgba(216, 180, 106, 0.12);
+  }
+
+  .status-pill:hover span {
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .filter-actions .btn {
+    min-height: 52px;
+    border-radius: 999px;
+    padding-inline: 1.25rem;
+    white-space: nowrap;
+  }
+
+  .company-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .company-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #d8b46a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .company-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(216, 180, 106, 0.12);
+    color: #f7dfaa;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .badge-location {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 0.4em 0.8em;
+    border-radius: 2rem;
+  }
+
+  .project-count {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    color: #f6d58f;
+    font-weight: 700;
+    background: rgba(216, 180, 106, 0.12);
+    padding: 0.3em 0.8em;
+    border-radius: 0.5rem;
+  }
+
+  @media (max-width: 991px) {
+    .directory-filter-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-actions {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .directory-header {
+      text-align: left;
+    }
+
+    .directory-filter-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-actions,
+    .filter-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="container py-5">
+
+  <div class="directory-header">
+    <h1 class="directory-title">Diretório de Empresas</h1>
+    <p class="text-muted lead">Explore as empresas cadastradas na plataforma.</p>
+  </div>
+
+  <div class="filter-card">
+    <form method="get" class="directory-filter-grid">
+
+      <div class="filter-field">
+        <label class="filter-label" for="select-estado">Estado</label>
+        <select name="estado" id="select-estado" class="form-select form-select-dark">
+          <option value="">Selecione um Estado</option>
+          {% for uf in estados_disponiveis %}
+          <option value="{{ uf }}" {% if filters.estado == uf %}selected{% endif %}>{{ uf }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label class="filter-label" for="select-cidade">Cidade</label>
+        <select name="cidade" id="select-cidade" class="form-select form-select-dark" disabled>
+          <option value="">Selecione primeiro o Estado</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <span class="filter-label">Projetos</span>
+        <div class="status-segment" role="radiogroup" aria-label="Filtro de projetos">
+          <label class="status-pill">
+            <input type="radio" name="status" value="" {% if not filters.status %}checked{% endif %}>
+            <span>Todos</span>
+          </label>
+          {% for value, label in status_choices %}
+          <label class="status-pill">
+            <input type="radio" name="status" value="{{ value }}" {% if filters.status == value %}checked{% endif %}>
+            <span>{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-light fw-bold shadow" type="submit">
+          <i class="fas fa-filter me-2"></i>Filtrar
+        </button>
+        {% if filters.estado or filters.cidade or filters.status %}
+        <a href="{% url 'public:diretorio' %}" class="btn btn-ghost" title="Limpar filtros" aria-label="Limpar filtros">
+          <i class="fas fa-times"></i>
+        </a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h5 class="text-white mb-0">
+      <span class="text-primary fw-bold">{{ companies|length }}</span> empresas encontradas
+    </h5>
+    {% if filters.status %}
+    <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25">
+      Filtrando por status: {{ filters.status }}
+    </span>
+    {% endif %}
+  </div>
+
+  <div class="row g-4">
+    {% for c in companies %}
+    <div class="col-md-6 col-lg-4">
+      <div class="company-card">
+        <div class="company-icon"><i class="fas fa-building"></i></div>
+
+        {% if c.projects_count > 0 %}
+        <div class="project-count" title="Projetos Registrados">
+          <i class="fas fa-project-diagram me-1"></i> {{ c.projects_count }}
+        </div>
+        {% endif %}
+
+        <h4 class="fw-bold text-white mb-1">{{ c.nome_fantasia }}</h4>
+        <p class="text-muted small mb-3 text-truncate">{{ c.razao_social }}</p>
+
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <span class="badge-location">
+            <i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ c.cidade }} / {{ c.estado }}
+          </span>
+        </div>
+
+        <div
+          class="border-top border-white border-opacity-10 pt-3 mt-auto d-flex justify-content-between align-items-center">
+          {% if c.site %}
+          <a href="{{ c.site }}" target="_blank"
+            class="text-decoration-none text-primary small fw-bold hover-brightness">
+            <i class="fas fa-globe me-1"></i> Visitar Site
+          </a>
+          {% else %}
+          <span class="text-muted small opacity-50"><i class="fas fa-globe me-1"></i> Sem site</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="text-center py-5 rounded-4 border border-white border-opacity-10 bg-dark bg-opacity-50">
+        <div class="mb-3 opacity-25"><i class="fas fa-search fa-4x text-white"></i></div>
+        <h4 class="text-white fw-bold">Nenhum resultado encontrado</h4>
+        <p class="text-muted">Tente ajustar os filtros ou cadastre novas empresas.</p>
+        <a href="{% url 'public:diretorio' %}" class="btn btn-outline-light mt-3">Limpar Filtros</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const cityMap = JSON.parse('{{ mapa_cidades_json|escapejs }}');
+
+    const stateSelect = document.getElementById('select-estado');
+    const citySelect = document.getElementById('select-cidade');
+
+
+    const currentCity = "{{ filters.cidade|default:'' }}";
+
+    function updateCities() {
+      const selectedState = stateSelect.value;
+
+
+      citySelect.innerHTML = '<option value="">Todas as Cidades</option>';
+
+      if (selectedState && cityMap[selectedState]) {
+
+        citySelect.disabled = false;
+
+
+        cityMap[selectedState].forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+
+
+          if (city === currentCity) {
+            option.selected = true;
+          }
+          citySelect.appendChild(option);
+        });
+      } else {
+
+        citySelect.disabled = true;
+        citySelect.innerHTML = '<option value="">Selecione primeiro o Estado</option>';
+      }
+    }
+
+
+    stateSelect.addEventListener('change', updateCities);
+
+
+    if (stateSelect.value) {
+      updateCities();
+    }
+  });
+</script>
+{% endblock %}
