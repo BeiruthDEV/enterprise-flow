@@ -40,7 +40,7 @@ A interface adota uma estética **dark moderna** com efeitos de glassmorphism, g
 Este projeto é uma versão própria, refatorada e adaptada para portfólio, baseada em um sistema acadêmico desenvolvido em equipe durante o curso. No projeto original, atuei como principal responsável por toda a camada de frontend, incluindo identidade visual, templates Django, landing page, dashboard, formulários, telas de autenticação, páginas públicas e experiência do usuário. Além disso, contribuí diretamente em funcionalidades de backend: autenticação, recuperação de senha, upload de mídia, rotas, seeders, estatísticas dinâmicas, filtros avançados, integração com Chart.js, geolocalização com geopy, mapas interativos com Leaflet.js e controle de acesso.
 
 - **Autor (portfólio):** Matheus Beiruth — [@BeiruthDEV](https://github.com/BeiruthDEV)
-- **Repositório:** https://github.com/BeiruthDEV/enterprise-flow
+- **Repositório:** https://github.com/BeiruthDEV/Orbia
 - **Projeto original (em equipe):** https://github.com/JoaoLopes07/projeto-integrador-curso
 
 ---
@@ -118,7 +118,7 @@ orbia/
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/BeiruthDEV/enterprise-flow.git
+git clone https://github.com/BeiruthDEV/Orbia.git
 cd enterprise-flow
 ```
 
