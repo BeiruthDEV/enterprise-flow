@@ -1,4 +1,9 @@
-﻿# Orbia
+<div align="center">
+
+# Orbia
+
+> 🚧 **Repositório demo** — versão pública refatorada para portfólio, baseada em sistema desenvolvido em equipe.
+> O código completo de produção está em repositório privado.
 
 ![Django](https://img.shields.io/badge/Django-5.2-092E20?logo=django&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
@@ -8,13 +13,23 @@
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Status](https://img.shields.io/badge/status-portfolio-purple)
 
+</div>
+
 > Plataforma corporativa para gestão de empresas, projetos, pesquisas e relatórios — em um único fluxo.
+
+---
+
+## O Problema
+
+Organizações que gerenciam redes de empresas parceiras e representantes regionais não têm uma ferramenta centralizada para cadastrar entidades, mapear sua distribuição geográfica, acompanhar projetos por status e coletar pesquisas anuais — tudo com controle de acesso por tipo de usuário.
+
+**Orbia resolve isso em um único painel:** cadastro geolocalizado de empresas → gestão de projetos vinculados → pesquisas estruturadas → dashboards e exportação de relatórios.
 
 ---
 
 ## 📖 Descrição
 
-**Orbia** é uma plataforma web full-stack desenvolvida em Django 5 que centraliza a operação de uma organização em um único painel: cadastro e geolocalização de empresas, gestão de projetos por status, pesquisas estruturadas com histórico, dashboards com métricas em tempo real, mapas interativos e exportação para CSV/PDF.
+**Orbia** é uma plataforma web full-stack desenvolvida em Django 5 que centraliza a operação de uma organização: cadastro e geolocalização de empresas, gestão de projetos por status, pesquisas estruturadas com histórico, dashboards com métricas em tempo real, mapas interativos e exportação para CSV/PDF.
 
 A interface adota uma estética **dark moderna** com efeitos de glassmorphism, gradientes e tipografia Inter, oferecendo uma experiência polida tanto em desktop quanto em dispositivos móveis.
 
@@ -22,10 +37,10 @@ A interface adota uma estética **dark moderna** com efeitos de glassmorphism, g
 
 ## 🪪 Contexto e Autoria
 
-Este projeto é uma versão própria, refatorada e adaptada para portfólio, baseada em um sistema acadêmico desenvolvido em equipe durante o curso. No projeto original, atuei como principal responsável por toda a camada de frontend, incluindo identidade visual, templates Django, landing page, dashboard, formulários, telas de autenticação, páginas públicas e experiência do usuário. Além disso, contribuí diretamente em funcionalidades de backend, como autenticação, recuperação de senha, upload de mídia, rotas, seeders, estatísticas dinâmicas, filtros avançados, integração com Chart.js, geolocalização com geopy, mapas interativos com Leaflet.js e controle de acesso.
+Este projeto é uma versão própria, refatorada e adaptada para portfólio, baseada em um sistema acadêmico desenvolvido em equipe durante o curso. No projeto original, atuei como principal responsável por toda a camada de frontend, incluindo identidade visual, templates Django, landing page, dashboard, formulários, telas de autenticação, páginas públicas e experiência do usuário. Além disso, contribuí diretamente em funcionalidades de backend: autenticação, recuperação de senha, upload de mídia, rotas, seeders, estatísticas dinâmicas, filtros avançados, integração com Chart.js, geolocalização com geopy, mapas interativos com Leaflet.js e controle de acesso.
 
 - **Autor (portfólio):** Matheus Beiruth — [@BeiruthDEV](https://github.com/BeiruthDEV)
-- **Repositório:** https://github.com/BeiruthDEV/orbia
+- **Repositório:** https://github.com/BeiruthDEV/enterprise-flow
 - **Projeto original (em equipe):** https://github.com/JoaoLopes07/projeto-integrador-curso
 
 ---
@@ -94,7 +109,6 @@ orbia/
 ├── static/                     # CSS + assets (style.css, orbia-icon.png)
 ├── media/                      # uploads de usuários (avatar etc.)
 ├── manage.py
-
 ```
 
 ---
@@ -104,8 +118,8 @@ orbia/
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/BeiruthDEV/orbia.git
-cd orbia
+git clone https://github.com/BeiruthDEV/enterprise-flow.git
+cd enterprise-flow
 ```
 
 ### 2. Criar e ativar ambiente virtual
@@ -136,6 +150,7 @@ copy .env.example .env     # Windows
 ```
 
 Edite o `.env` e gere uma `SECRET_KEY` real:
+
 ```bash
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
@@ -211,23 +226,18 @@ python manage.py test
 ## 📸 Screenshots
 
 ### Landing page
-
 ![Landing page da Orbia](assets/landing.png)
 
 ### Mapa interativo
-
 ![Mapa interativo de empresas](assets/mapa.png)
 
 ### Diretório público
-
 ![Diretório público de empresas](assets/diretorio.png)
 
 ### Login
-
 ![Tela de login da Orbia](assets/login.png)
 
 ### Cadastro
-
 ![Tela de cadastro da Orbia](assets/cadastro.png)
 
 ---
@@ -249,3 +259,11 @@ python manage.py test
 ## 📄 Licença
 
 MIT — uso livre para fins de portfólio e estudo.
+
+---
+
+<div align="center">
+
+**[BeiruthDEV](https://github.com/BeiruthDEV)** · [LinkedIn](https://www.linkedin.com/in/matheusbeiruth)
+
+</div>
